@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>OTP Verification</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #83a4d4, #b6fbff);
+      display: flex;
+      height: 100vh;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .container {
+      background-color: white;
+      padding: 30px 40px;
+      border-radius: 10px;
+      box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+      width: 350px;
+      text-align: center;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    input[type="number"] {
+      padding: 10px;
+      width: 80%;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+
+    button {
+      padding: 10px 20px;
+      background-color: #4285f4;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #3367d6;
+    }
+
+    .message {
+      margin-top: 15px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>OTP Verification</h2>
+    <p id="otpInfo" style="color: gray;">(OTP has been sent: <span id="otpDisplay"></span>)</p>
+    <input type="number" id="otpInput" placeholder="Enter OTP" />
+    <br/>
+    <button onclick="verifyOTP()">Verify OTP</button>
+    <div class="message" id="resultMessage"></div>
+  </div>
+
+  <script>
+    const otp = Math.floor(Math.random() * (5000 - 1000 + 1)) + 1000;
+    document.getElementById('otpDisplay').textContent = otp;
+
+    let attempts = 0;
+
+    function verifyOTP() {
+      const userOTP = parseInt(document.getElementById("otpInput").value);
+      const result = document.getElementById("resultMessage");
+      attempts++;
+
+      if (userOTP === otp) {
+        result.style.color = "green";
+        result.textContent = "✅ Successfully verified your account!";
+        document.querySelector("button").disabled = true;
+      } else {
+        if (attempts < 3) {
+          result.style.color = "red";
+          result.textContent = `❌ OTP incorrect. Attempt ${attempts} of 3.`;
+        } else {
+          result.style.color = "red";
+          result.textContent = "⛔ Maximum attempts reached. Try again later.";
+          document.querySelector("button").disabled = true;
+        }
+      }
+    }
+  </script>
+</body>
+</html>
